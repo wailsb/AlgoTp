@@ -241,6 +241,5 @@ int main() {
     } while (choix != 7);
 
     free(t);
-    free(original);
     return 0;
 }
