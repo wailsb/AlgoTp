@@ -21,12 +21,9 @@ void afficher_matrice(char mat[][MAX_COLS], int lignes)
     }
 }
 // Tri à bulles pour une matrice (tri des lignes en ordre alphabétique)
-void tri_bulle_matrice(char mat[][MAX_COLS], int lignes, int *nbComp, int *nbPerm)
-{
-    for (int i = 0; i < lignes - 1; i++)
-    {
-        for (int j = 0; j < lignes - i - 1; j++)
-        {
+void tri_bulle_matrice(char mat[][MAX_COLS], int lignes, int *nbComp, int *nbPerm){
+    for (int i = 0; i < lignes - 1; i++){
+        for (int j = 0; j < lignes - i - 1; j++){
             (*nbComp)++;
             if (strcmp(mat[j], mat[j + 1]) > 0)
             {
@@ -42,59 +39,46 @@ void tri_bulle_matrice(char mat[][MAX_COLS], int lignes, int *nbComp, int *nbPer
     }
 }
 // Fusion pour tri fusion (matrice)
-void fusion_matrice(char mat[][MAX_COLS], int gauche, int milieu, int droit, int *nbComp, int *nbPerm)
-{
+void fusion_matrice(char mat[][MAX_COLS], int gauche, int milieu, int droit, int *nbComp, int *nbPerm){
     int n1 = milieu - gauche + 1; // Taille de la partie gauche
     int n2 = droit - milieu;      // Taille de la partie droite
     char gaucheMat[n1][MAX_COLS], droiteMat[n2][MAX_COLS];
-
     // Copie des sous-matrices gauche et droite
     for (int i = 0; i < n1; i++)
         strncpy(gaucheMat[i], mat[gauche + i], MAX_COLS);
     for (int j = 0; j < n2; j++)
         strncpy(droiteMat[j], mat[milieu + 1 + j], MAX_COLS);
-
     int i = 0, j = 0, k = gauche; // Pointeurs pour gaucheMat, droiteMat et mat
-
     // Fusion des deux sous-matrices
-    while (i < n1 && j < n2)
-    {
+    while (i < n1 && j < n2){
         (*nbComp)++;
-        if (strcmp(gaucheMat[i], droiteMat[j]) <= 0)
-        {
+        if (strcmp(gaucheMat[i], droiteMat[j]) <= 0){
             strncpy(mat[k], gaucheMat[i], MAX_COLS);
             i++;
         }
-        else
-        {
+        else {
             strncpy(mat[k], droiteMat[j], MAX_COLS);
             j++;
             (*nbPerm)++;
         }
         k++;
     }
-
     // Copie des éléments restants de gaucheMat
-    while (i < n1)
-    {
+    while (i < n1){
         strncpy(mat[k], gaucheMat[i], MAX_COLS);
         i++;
         k++;
     }
-
     // Copie des éléments restants de droiteMat
-    while (j < n2)
-    {
-        strncpy(mat[k], droiteMat[j], MAX_COLS);
+    while (j < n2){
+        strncpy(mat[k], droiteMat[j, MAX_COLS);
         j++;
         k++;
     }
 }
 // Tri fusion pour matrice
-void tri_fusion_matrice(char mat[][MAX_COLS], int gauche, int droit, int *nbComp, int *nbPerm)
-{
-    if (gauche < droit)
-    {
+void tri_fusion_matrice(char mat[][MAX_COLS], int gauche, int droit, int *nbComp, int *nbPerm){
+    if (gauche < droit){
         int milieu = gauche + (droit - gauche) / 2;
         tri_fusion_matrice(mat, gauche, milieu, nbComp, nbPerm);
         tri_fusion_matrice(mat, milieu + 1, droit, nbComp, nbPerm);
@@ -121,21 +105,17 @@ void afficher_liste(Node *head)
     printf("NULL\n");
 }
 // Tri à bulles pour liste chaînée
-void tri_bulle_liste(Node *head, int *nbComp, int *nbPerm)
-{
+void tri_bulle_liste(Node *head, int *nbComp, int *nbPerm){
     if (!head)
         return;
     bool swapped;
     Node *ptr;
-    do
-    {
+    do{
         swapped = false;
         ptr = head;
-        while (ptr->next != NULL)
-        {
+        while (ptr->next != NULL){
             (*nbComp)++;
-            if (strcmp(ptr->data, ptr->next->data) > 0)
-            {
+            if (strcmp(ptr->data, ptr->next->data) > 0){
                 char temp[100];
                 strcpy(temp, ptr->data);
                 strcpy(ptr->data, ptr->next->data);
@@ -149,27 +129,21 @@ void tri_bulle_liste(Node *head, int *nbComp, int *nbPerm)
     } while (swapped);
 }
 // Tri par insertion pour liste chaînée
-Node *tri_insertion_liste(Node *head, int *nbComp, int *nbPerm)
-{
+Node *tri_insertion_liste(Node *head, int *nbComp, int *nbPerm){
     if (!head)
         return NULL;
 
     Node *sorted = NULL;
-
-    while (head != NULL)
-    {
+    while (head != NULL){
         Node *current = head;
         head = head->next;
-        if (sorted == NULL || strcmp(sorted->data, current->data) >= 0)
-        {
+        if (sorted == NULL || strcmp(sorted->data, current->data) >= 0){
             current->next = sorted;
             sorted = current;
         }
-        else
-        {
+        else{
             Node *temp = sorted;
-            while (temp->next != NULL && strcmp(temp->next->data, current->data) < 0)
-            {
+            while (temp->next != NULL && strcmp(temp->next->data, current->data) < 0){
                 (*nbComp)++;
                 temp = temp->next;
             }
@@ -179,7 +153,6 @@ Node *tri_insertion_liste(Node *head, int *nbComp, int *nbPerm)
         (*nbPerm)++;
         afficher_liste(head);
     }
-
     return sorted;
 }
 
@@ -193,21 +166,16 @@ void afficher_tableau(int t[], int n)
     printf("\n");
 }
 // Tri par sélection
-void tri_selection(int t[], int n, int *nbComp, int *nbPerm)
-{
-    for (int i = 0; i < n - 1; i++)
-    {
+void tri_selection(int t[], int n, int *nbComp, int *nbPerm){
+    for (int i = 0; i < n - 1; i++){
         int k = i;
-        for (int j = i + 1; j < n; j++)
-        {
+        for (int j = i + 1; j < n; j++){
             (*nbComp)++; // Comparaison
-            if (t[j] < t[k])
-            {
+            if (t[j] < t[k]){
                 k = j;
             }
         }
-        if (k != i)
-        {
+        if (k != i){
             swap(&t[k], &t[i]);
             (*nbPerm)++; // Permutation
         }
@@ -216,15 +184,11 @@ void tri_selection(int t[], int n, int *nbComp, int *nbPerm)
     }
 }
 // Tri à bulles
-void tri_bulle(int t[], int n, int *nbComp, int *nbPerm)
-{
-    for (int i = 0; i < n - 1; i++)
-    {
-        for (int j = 0; j < n - i - 1; j++)
-        {
+void tri_bulle(int t[], int n, int *nbComp, int *nbPerm){
+    for (int i = 0; i < n - 1; i++){
+        for (int j = 0; j < n - i - 1; j++){
             (*nbComp)++; // Comparaison
-            if (t[j] > t[j + 1])
-            {
+            if (t[j] > t[j + 1]){
                 swap(&t[j], &t[j + 1]);
                 (*nbPerm)++; // Permutation
             }
@@ -234,14 +198,11 @@ void tri_bulle(int t[], int n, int *nbComp, int *nbPerm)
     }
 }
 // Tri par insertion
-void tri_insertion(int t[], int n, int *nbComp, int *nbPerm)
-{
-    for (int i = 1; i < n; i++)
-    {
+void tri_insertion(int t[], int n, int *nbComp, int *nbPerm){
+    for (int i = 1; i < n; i++){
         int k = t[i];
         int j = i - 1;
-        while (j >= 0 && t[j] > k)
-        {
+        while (j >= 0 && t[j] > k){
             (*nbComp)++; // Comparaison
             t[j + 1] = t[j];
             j--;
@@ -254,8 +215,7 @@ void tri_insertion(int t[], int n, int *nbComp, int *nbPerm)
     }
 }
 // Tri fusion
-void fusion(int t[], int gauche, int milieu, int droit, int *nbComp, int *nbPerm)
-{
+void fusion(int t[], int gauche, int milieu, int droit, int *nbComp, int *nbPerm){
     int n1 = milieu - gauche + 1;
     int n2 = droit - milieu;
     int L[n1], R[n2];
@@ -266,31 +226,24 @@ void fusion(int t[], int gauche, int milieu, int droit, int *nbComp, int *nbPerm
         R[j] = t[milieu + 1 + j];
 
     int i = 0, j = 0, k = gauche;
-    while (i < n1 && j < n2)
-    {
+    while (i < n1 && j < n2){
         (*nbComp)++;
-        if (L[i] <= R[j])
-        {
+        if (L[i] <= R[j]){
             t[k++] = L[i++];
         }
-        else
-        {
+        else{
             t[k++] = R[j++];
         }
         (*nbPerm)++;
         // Afficher l'état du tableau après chaque insertion dans t
         afficher_tableau(t, droit + 1);
     }
-
-    while (i < n1)
-    {
+    while (i < n1){
         t[k++] = L[i++];
         (*nbPerm)++;
         afficher_tableau(t, droit + 1);
     }
-
-    while (j < n2)
-    {
+    while (j < n2){
         t[k++] = R[j++];
         (*nbPerm)++;
         afficher_tableau(t, droit + 1);
@@ -307,18 +260,14 @@ void tri_fusion(int t[], int gauche, int droit, int *nbComp, int *nbPerm)
     }
 }
 // Tri rapide
-void tri_rapide(int t[], int low, int high, int *nbComp, int *nbPerm)
-{
-    if (low < high)
-    {
+void tri_rapide(int t[], int low, int high, int *nbComp, int *nbPerm){
+    if (low < high){
         int pivot = t[high];
         int i = low - 1;
 
-        for (int j = low; j < high; j++)
-        {
+        for (int j = low; j < high; j++){
             (*nbComp)++;
-            if (t[j] < pivot)
-            {
+            if (t[j] < pivot){
                 i++;
                 swap(&t[i], &t[j]);
                 (*nbPerm)++;
@@ -329,29 +278,24 @@ void tri_rapide(int t[], int low, int high, int *nbComp, int *nbPerm)
         (*nbPerm)++;
         afficher_tableau(t, high);
         int pi = i + 1;
-
         tri_rapide(t, low, pi - 1, nbComp, nbPerm);
         tri_rapide(t, pi + 1, high, nbComp, nbPerm);
     }
 }
 // Tri peigne
-void tri_peigne(int t[], int n, int *nbComp, int *nbPerm)
-{
+void tri_peigne(int t[], int n, int *nbComp, int *nbPerm){
     int gap = n;
     bool swapped = true;
 
-    while (gap > 1 || swapped)
-    {
+    while (gap > 1 || swapped){
         gap = (gap * 10) / 13;
         if (gap < 1)
             gap = 1;
 
         swapped = false;
-        for (int i = 0; i < n - gap; i++)
-        {
+        for (int i = 0; i < n - gap; i++){
             (*nbComp)++;
-            if (t[i] > t[i + gap])
-            {
+            if (t[i] > t[i + gap]){
                 swap(&t[i], &t[i + gap]);
                 (*nbPerm)++;
                 afficher_tableau(t, n);
@@ -361,11 +305,9 @@ void tri_peigne(int t[], int n, int *nbComp, int *nbPerm)
     }
 }
 
-int main()
-{
+int main(){
     int choix_structure;
-    do
-    {
+    do{
         printf("\n=== Menu Principal ===\n");
         printf("1. Tri de liste chainee\n");
         printf("2. Tri de matrice\n");
